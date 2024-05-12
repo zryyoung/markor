@@ -1,10 +1,11 @@
-##  Markdown 文件操作
+## Markdown 文件操作
 
-### 使用 Node.js 来进行文件操作
-- 安卓手机可使用Termux/zeroTermux，安装node.js，可以运行。
+### 使用 Node.js 进行文件操作
 
-#### 一、单个目录的md文件操作
-- 将单个目录下的所有makdown文件，添加到index.js目录中，以下是一个简单的 Node.js 脚本示例
+#### 一、单个目录的 Markdown 文件操作
+
+以下是一个简单的 Node.js 脚本示例，将单个目录下的所有 Markdown 文件添加到 index.md 文件中：
+
 ```javascript
 const fs = require('fs');
 const path = require('path');
@@ -52,15 +53,12 @@ ${links.join('\n')}
 `);
     console.log('已创建并写入链接到 index.md 文件！');
 }
-
 ```
-#### 二、多级目录中的md文件和文件夹操作
-- 将某路径下的文件夹和 Markdown 文件以及文件夹下的子文件夹文件添加到一个 `index.md`文件中
 
+#### 二、多级目录中的 Markdown 文件和文件夹操作
 
- 1. 按文件夹分级，全部显示到主目录下的index.md文件中。
- 
- 
+以下是一个脚本示例，将指定路径下的文件夹和 Markdown 文件以及文件夹下的子文件夹文件添加到一个 index.md 文件中：
+
 ```javascript
 const fs = require('fs');
 const path = require('path');
@@ -120,52 +118,4 @@ fs.writeFileSync(indexPath, `${markdownContent}`);
 console.log('已生成 index.md 文件！');
 ```
 
-
-2. 以目录的形式，按文件夹分级展开。
-
-```javascript
-
-const fs = require('fs');
-const path = require('path');
-
-// 指定的目录
-const directory = '/storage/emulated/0/Documents/markor/';
-
-// 递归遍历目录并生成 Markdown 链接
-function generateMarkdown(directory, parentFolder = '') {
-    let markdownContent = '';
-
-    const files = fs.readdirSync(directory);
-    const folders = files.filter(file => fs.statSync(path.join(directory, file)).isDirectory());
-
-    folders
-        .filter(folder => !folder.startsWith('.') && !folder.startsWith('_')) // 排除以点开头的文件夹
-        .sort((a, b) => {
-            const statA = fs.statSync(path.join(directory, a));
-            const statB = fs.statSync(path.join(directory, b));
-            return statB.mtime.getTime() - statA.mtime.getTime(); // 按文件夹创建时间排序
-        })
-        .forEach(folder => {
-            const folderPath = path.join(parentFolder, folder);
-            markdownContent += `- [${folder}](${folderPath}/index.md)\n`;
-            generateMarkdown(path.join(directory, folder), folderPath);
-            const subFolderPath = path.join(directory, folder);
-            const subFiles = fs.readdirSync(subFolderPath).filter(file => path.extname(file) === '.md' && file !== 'index.md');
-            const subFilesLinks = subFiles.map(file => `- [${path.basename(file, '.md')}](${file})\n`).join('');
-            fs.writeFileSync(path.join(subFolderPath, 'index.md'), `# ${folder} 目录\n\n${subFilesLinks}`);
-        });
-
-    return markdownContent;
-}
-
-// 生成 Markdown 内容
-const markdownContent = generateMarkdown(directory);
-
-// 将 Markdown 内容写入 index.md 文件
-const indexPath = path.join(directory, 'index.md');
-fs.writeFileSync(indexPath, `# 主目录\n\n${markdownContent}`);
-
-console.log('已生成 index.md 文件！');
-
-
-```
+这两个脚本分别用于单个目录和多级目录中的 Markdown 文件操作，你可以根据自己的需求选择使用。
