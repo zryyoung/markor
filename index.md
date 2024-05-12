@@ -39,3 +39,10 @@
 
 - [SingleDirectory.js](Markdown/SingleDirectory.js)
 
+
+# Termux
+
+- [Termux](Termux/Termux.md)
+
+- [openJDK_Termux](Termux/openJDK_Termux.md)
+
