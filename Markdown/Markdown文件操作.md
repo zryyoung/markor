@@ -56,9 +56,12 @@ ${links.join('\n')}
 ```
 #### 二、多级目录中的md文件和文件夹操作
 - 将某路径下的文件夹和 Markdown 文件以及文件夹下的子文件夹文件添加到一个 `index.md`文件中
- 1. 按文件夹分级，全部显示到主目录下的index.md文件中。
-```javascript
 
+
+ 1. 按文件夹分级，全部显示到主目录下的index.md文件中。
+ 
+ 
+```javascript
 const fs = require('fs');
 const path = require('path');
 
@@ -114,10 +117,10 @@ const markdownContent = generateMarkdown(directory);
 // 将 Markdown 内容写入 index.md 文件
 const indexPath = path.join(directory, 'index.md');
 fs.writeFileSync(indexPath, `${markdownContent}`);
-
 console.log('已生成 index.md 文件！');
-
 ```
+
+
 2. 以目录的形式，按文件夹分级展开。
 
 ```javascript
