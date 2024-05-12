@@ -20,9 +20,9 @@
 
 - [5.Git版本控制](Github/5.Git版本控制.md)
 
-- [6.Github Action](Github/6.Github Action.md)
+- [6.Github_Action](Github/6.Github_Action.md)
 
-- [7.Github Page](Github/7.Github Page.md)
+- [7.Github_Page](Github/7.Github_Page.md)
 
 - [8.Github进阶](Github/8.Github进阶.md)
 
