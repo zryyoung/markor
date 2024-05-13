@@ -21,41 +21,56 @@
 # 指定的目录
 directory='/storage/emulated/0/Documents/markor/'
 
-# 生成 Markdown 目录索引的函数
-generate_index() {
-    local dir="$1"
-    local parent_folder="$2"
+# 生成 Markdown 文件的函数
+generate_markdown() {
+    local directory="$1"
+    local level="${2:-0}"
+    local parent_folder="${3:-}"
 
     local markdown_content=""
+    local folders=()
+    local non_folders=()
 
-    # 清除当前文件夹的 index.md 文件
-    rm -f "$dir/index.md"
-
-    # 遍历目录下的文件和文件夹
-    for file in "$dir"/*; do
-        if [ -d "$file" ] && [[ "$(basename "$file")" != .* ]]; then
-            # 如果是文件夹且不以点开头，则写入当前文件夹的链接
-            local folder_name=$(basename "$file")
-            local folder_path="${parent_folder:+$parent_folder/}$folder_name"
-            markdown_content+="- [${folder_name}](${folder_path}/index.md)\n"
-            # 递归生成当前文件夹的 index.md 文件
-            generate_index "$file" "${parent_folder:+$parent_folder/}$folder_name"
-        elif [ -f "$file" ] && [[ ! "$(basename "$file")" =~ ^\..* && "$(basename "$file")" != "README.md" && "$(basename "$file")" != "index.md" ]]; then
-            # 如果是文件且不以点开头，并且不是 README.md 和 index.md，则将文件添加到 markdown_content 中
-            local file_name=$(basename "$file")
-            local file_path="${parent_folder:+$parent_folder/}${file_name%.md}.md"
-            markdown_content+="- [${file_name%.md}](${file_path})\n"
+    # 遍历目录并生成 Markdown 内容
+    for file in "$directory"/*; do
+        local name=$(basename "$file")
+        if [[ $name != .* && $name != 'README.md' ]]; then
+            if [[ -d $file ]]; then
+                # 如果是文件夹，则递归调用 generate_markdown 函数
+                folders+=("$file")
+            elif [[ $name != 'index.md' && $name == *.md ]]; then
+                # 如果是 Markdown 文件且不是主目录下的 index.md，则添加到 non_folders 数组中
+                non_folders+=("$file")
+            fi
         fi
     done
 
-    # 生成当前文件夹的 index.md 文件
-    echo -e "# ${parent_folder:-主目录}\n\n$markdown_content" > "$dir/index.md"
+    # 添加文件夹里的文件
+    for file in "${non_folders[@]}"; do
+        local name=$(basename "$file")
+        local folder_path="${parent_folder:+$parent_folder/}"
+        markdown_content+="- [${name%.md}]($folder_path$name)\n\n"
+    done
+
+    # 添加文件夹
+    for folder in "${folders[@]}"; do
+        local name=$(basename "$folder")
+        local sub_content=$(generate_markdown "$folder" $((level + 1)) "${parent_folder:+$parent_folder/}$name")
+        if [ -n "$sub_content" ]; then
+            markdown_content+="\n$(printf '#%.0s' $(seq 1 $((level + 1)))) $name\n\n"
+            markdown_content+="$sub_content"
+        fi
+    done
+
+    echo -e "$markdown_content"
 }
 
-# 清空并生成主目录的 index.md
-> "$directory/index.md"
-generate_index "$directory" ""
+# 生成 Markdown 内容
+markdown_content=$(generate_markdown "$directory")
 
+# 将 Markdown 内容写入 index.md 文件
+index_path="$directory/index.md"
+echo -e "$markdown_content" > "$index_path"
 echo "已生成 index.md 文件！"
 ```
 复制上面的脚本，
@@ -131,35 +146,60 @@ git push -u origin master
 #!/bin/bash
 
 # 生成 Markdown 目录索引的函数
-generate_index() {
-    local dir="$1"
-    local parent_folder="$2"
+# 指定的目录
+directory='/storage/emulated/0/Documents/markor/'
+
+# 生成 Markdown 文件的函数
+generate_markdown() {
+    local directory="$1"
+    local level="${2:-0}"
+    local parent_folder="${3:-}"
 
     local markdown_content=""
+    local folders=()
+    local non_folders=()
 
-    # 清除当前文件夹的 index.md 文件
-    rm -f "$dir/index.md"
-
-    # 遍历目录下的文件和文件夹
-    for file in "$dir"/*; do
-        if [ -d "$file" ] && [[ "$(basename "$file")" != .* ]]; then
-            # 如果是文件夹且不以点开头，则写入当前文件夹的链接
-            local folder_name=$(basename "$file")
-            local folder_path="${parent_folder:+$parent_folder/}$folder_name"
-            markdown_content+="- [${folder_name}](${folder_path}/index.md)\n"
-            # 递归生成当前文件夹的 index.md 文件
-            generate_index "$file" "${parent_folder:+$parent_folder/}$folder_name"
-        elif [ -f "$file" ] && [[ ! "$(basename "$file")" =~ ^\..* && "$(basename "$file")" != "README.md" && "$(basename "$file")" != "index.md" ]]; then
-            # 如果是文件且不以点开头，并且不是 README.md 和 index.md，则将文件添加到 markdown_content 中
-            local file_name=$(basename "$file")
-            local file_path="${parent_folder:+$parent_folder/}${file_name%.md}.md"
-            markdown_content+="- [${file_name%.md}](${file_path})\n"
+    # 遍历目录并生成 Markdown 内容
+    for file in "$directory"/*; do
+        local name=$(basename "$file")
+        if [[ $name != .* && $name != 'README.md' ]]; then
+            if [[ -d $file ]]; then
+                # 如果是文件夹，则递归调用 generate_markdown 函数
+                folders+=("$file")
+            elif [[ $name != 'index.md' && $name == *.md ]]; then
+                # 如果是 Markdown 文件且不是主目录下的 index.md，则添加到 non_folders 数组中
+                non_folders+=("$file")
+            fi
         fi
     done
 
-    # 生成当前文件夹的 index.md 文件
-    echo -e "# ${parent_folder:-主目录}\n\n$markdown_content" > "$dir/index.md"
+    # 添加文件夹里的文件
+    for file in "${non_folders[@]}"; do
+        local name=$(basename "$file")
+        local folder_path="${parent_folder:+$parent_folder/}"
+        markdown_content+="- [${name%.md}]($folder_path$name)\n\n"
+    done
+
+    # 添加文件夹
+    for folder in "${folders[@]}"; do
+        local name=$(basename "$folder")
+        local sub_content=$(generate_markdown "$folder" $((level + 1)) "${parent_folder:+$parent_folder/}$name")
+        if [ -n "$sub_content" ]; then
+            markdown_content+="\n$(printf '#%.0s' $(seq 1 $((level + 1)))) $name\n\n"
+            markdown_content+="$sub_content"
+        fi
+    done
+
+    echo -e "$markdown_content"
 }
+
+# 生成 Markdown 内容
+markdown_content=$(generate_markdown "$directory")
+
+# 将 Markdown 内容写入 index.md 文件
+index_path="$directory/index.md"
+echo -e "$markdown_content" > "$index_path"
+echo "已生成 index.md 文件！"
 
 # 清空并生成主目录的 index.md
 > "$directory/index.md"
@@ -178,15 +218,11 @@ git push origin master
 echo "更改已推送到GitHub仓库！"
 ```
 
-比如说保存到
-```
-update_notes.sh
-```
-下次直接
+比如说保存到`update_notes.sh`文件，下次直接用
 ```bash
 ./update_notes.sh
 ```
-or
+或者
 ```bash
 bash update_notes.sh
 ```
