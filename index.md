@@ -2,4 +2,3 @@
 - [**Github**](Github/index.md)
 - [**Markdown**](Markdown/index.md)
 - [**Termux**](Termux/index.md)
-- [_config.yml](_config.yml)
