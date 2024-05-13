@@ -65,6 +65,5 @@ function searchFunction() {
 - [Termux](Termux/Termux.md)
 
 - [openJDK_Termux](Termux/openJDK_Termux.md)
-
 </ul>
 ```
