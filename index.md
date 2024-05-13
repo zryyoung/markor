@@ -21,7 +21,6 @@ function searchFunction() {
 }
 </script>
 
-```html
 
 <ul id="indexList">
 
@@ -66,4 +65,4 @@ function searchFunction() {
 
 - [openJDK_Termux](Termux/openJDK_Termux.md)
 </ul>
-```
+
