@@ -8,3 +8,5 @@
 - [search.sh](search.sh)
 - [upGit.sh](upGit.sh)
 - [update.sh](update.sh)
+- [目录结构.sh](目录结构.sh)
+- [目录结构markdown格式.sh](目录结构markdown格式.sh)

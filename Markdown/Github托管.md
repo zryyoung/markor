@@ -42,10 +42,10 @@
    ```
 
 8. **再次推送到GitHub仓库：** 执行脚本后，再次推送更改到GitHub仓库。你也可以将两个脚本合并为一个以便每次推送使用。
-   - [合并后的脚本链接](https://zryyoung.github.io/markor/Backup/Git/git.sh)
+   - [合并后的脚本链接](https://zryyoung.github.io/markor/Backup/Git/upGit.sh)
    ```markdown
-   wget https://zryyoung.github.io/markor/Backup/Git/git.sh
-   bash git.sh
+   wget https://zryyoung.github.io/markor/Backup/Git/upGit.sh
+   bash upGit.sh
    ```
 
 9. **配置GitHub Pages：** 在GitHub上启用GitHub Pages，实现自动将md文件编译成HTML文件，通过网络实时访问浏览。
