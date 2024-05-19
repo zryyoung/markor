@@ -1,30 +1,7 @@
 
 # Backup
 
-- [e.html](Backup/e.html)
-
 - [test](Backup/test.md)
-
-
-## Git
-
-- [MostDirectory.js](Backup/Git/MostDirectory.js)
-
-- [MostDirectory.sh](Backup/Git/MostDirectory.sh)
-
-- [MostDirectoryGrading.js](Backup/Git/MostDirectoryGrading.js)
-
-- [MostDirectoryGrading.sh](Backup/Git/MostDirectoryGrading.sh)
-
-- [MostDirectoryGradingOld.js](Backup/Git/MostDirectoryGradingOld.js)
-
-- [_config.yml](Backup/Git/_config.yml)
-
-- [search.sh](Backup/Git/search.sh)
-
-- [upGit.sh](Backup/Git/upGit.sh)
-
-- [update.sh](Backup/Git/update.sh)
 # Github
 
 - [1.Github入门](Github/1.Github入门.md)
@@ -51,17 +28,6 @@
 - [Markdown文件操作](Markdown/Markdown文件操作.md)
 
 - [Markor_Github_Termux](Markdown/Markor_Github_Termux.md)
-
-
-## Nodejs
-
-- [MostDirectory.js](Markdown/Nodejs/MostDirectory.js)
-
-- [MostDirectoryGrading.js](Markdown/Nodejs/MostDirectoryGrading.js)
-
-- [Nodejs脚本为目录自动生成index.md文件.txt](Markdown/Nodejs/Nodejs脚本为目录自动生成index.md文件.txt)
-
-- [SingleDirectory.js](Markdown/Nodejs/SingleDirectory.js)
 # Termux
 
 - [Termux](Termux/Termux.md)
